@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Collaborative Note-Taking App</title>
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Your content will go here -->
+    <!-- Inside <body> -->
+    <header>
+      <h1>Collaborative Notes</h1>
+      <nav>
+        <ul>
+          <li><a href="#" id="homeLink">Home</a></li>
+          <li><a href="#" id="notesLink">My Notes</a></li>
+          <li><a href="#" id="profileLink">Profile</a></li>
+          <li><a href="#" id="logoutLink">Logout</a></li>
+        </ul>
+      </nav>
+    </header>
+    <!-- Inside <body>, perhaps within a <main> tag -->
+    <div id="loginContainer">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+      <p id="errorMessage" style="color: red"></p>
+      <!-- Error message placeholder -->
+      <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+    </div>
+    <div id="signupContainer" style="display: none">
+      <h2>Sign Up</h2>
+      <form id="signupForm">
+        <input type="email" id="signupEmail" placeholder="Email" required />
+        <input
+          type="password"
+          id="signupPassword"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Sign Up</button>
+      </form>
+      <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+    </div>
+    <div id="notesContainer" class="notes-container">
+      <!-- Sidebar for Notebooks -->
+      <aside id="sidebar" class="sidebar">
+        <button id="newNotebookBtn" class="btn primary-btn">
+          + New Notebook
+        </button>
+        <ul id="notebookList" class="notebook-list">
+          <!-- Notebooks will be listed here -->
+        </ul>
+      </aside>
+
+      <!-- Notes Area -->
+      <section id="notesSection" class="notes-section">
+        <header class="notes-header">
+          <h2>Your Notes</h2>
+          <button id="newNoteBtn" class="btn primary-btn">+ New Note</button>
+        </header>
+        <ul id="notesList" class="notes-list">
+          <!-- Notes will be listed here -->
+        </ul>
+      </section>
+
+      <!-- Hidden field to store the selected notebook ID -->
+      <input type="hidden" id="selectedNotebookId" value="" />
+
+      <section
+        id="notebookEditor"
+        class="notebook-editor"
+        style="display: none"
+      >
+        <h3>Edit/Delete Notebook</h3>
+        <input
+          type="text"
+          id="notebookTitle"
+          placeholder="Notebook Title"
+          class="notebook-input"
+        />
+        <div class="editor-actions">
+          <button id="saveNotebookBtn" class="btn primary-btn">
+            Save Notebook
+          </button>
+          <button id="deleteNotebookBtn" class="btn danger-btn">
+            Delete Notebook
+          </button>
+          <button id="cancelNotebookEditBtn" class="btn secondary-btn">
+            Cancel
+          </button>
+        </div>
+      </section>
+
+      <section id="noteEditor" class="note-editor" style="display: none">
+        <h3>Create/Edit Note</h3>
+        <input
+          type="text"
+          id="noteTitle"
+          placeholder="Note Title"
+          class="note-input"
+        />
+        <textarea
+          id="noteContent"
+          placeholder="Start writing your note here..."
+          class="note-textarea"
+        ></textarea>
+        <div class="editor-actions">
+          <button id="saveNoteBtn" class="btn primary-btn">Save Note</button>
+          <button id="deleteNoteBtn" class="btn danger-btn">Delete Note</button>
+          <button id="cancelEditBtn" class="btn secondary-btn">Cancel</button>
+          <button id="viewVersionHistoryBtn" class="btn secondary-btn">
+            View Version History
+          </button>
+          <!-- New Button -->
+        </div>
+      </section>
+
+      <section id="versionHistory" style="display: none">
+        <h3>Version History</h3>
+        <ul id="versionsList">
+          <!-- Versions will be loaded here -->
+        </ul>
+      </section>
+    </div>
+
+    <!-- Include Firebase SDK from CDN -->
+    <!-- The core Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+
+    <!-- Include Firebase products you need -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore-compat.js"></script>
+
+    <!-- Link to JavaScript -->
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
