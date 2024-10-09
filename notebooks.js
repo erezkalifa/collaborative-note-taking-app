@@ -1,17 +1,10 @@
 import { db } from "./firebase.js";
 import { auth } from "./firebase.js"; // Import the auth object where needed
-import {
-  loadNotebookNotes,
-  loadVersionHistory,
-  showNoteEditor,
-  saveNote,
-  revertToVersion,
-} from "./notes.js"; // Import the function
+import { loadNotebookNotes } from "./notes.js"; // Import the function
 import {
   collection,
   addDoc,
   doc,
-  getDoc,
   updateDoc,
   deleteDoc,
   query,

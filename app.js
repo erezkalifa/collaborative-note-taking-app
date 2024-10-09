@@ -1,13 +1,6 @@
 import { auth } from "./firebase.js"; // Import auth from firebase.js
 import { setupSignup, setupLogin, setupLogout } from "./auth.js";
-// import { loadNotebooks, showNotebookEditor } from "./notebooks.js";
 import { loadNotebooks } from "./notebooks.js";
-// import {
-//   loadNotebookNotes,
-//   loadVersionHistory,
-//   showNoteEditor,
-//   saveNote,
-// } from "./notes.js"; // Import the function
 
 // Check if the user is authenticated
 auth.onAuthStateChanged((user) => {

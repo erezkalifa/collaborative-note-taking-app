@@ -9,18 +9,52 @@ import {
 // Handle sign-up form
 export function setupSignup() {
   const signupForm = document.getElementById("signupForm");
-  signupForm.addEventListener("submit", (e) => {
+  const signupErrorMessage = document.getElementById("signupErrorMessage"); // Make sure you use this
+  signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    // Get user input
     const email = signupForm["signupEmail"].value;
     const password = signupForm["signupPassword"].value;
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        signupForm.reset();
-      })
-      .catch((error) => {
-        console.error("Error signing up:", error.message);
-      });
+    try {
+      // Firebase sign-up with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log("User signed up successfully:", userCredential.user);
+
+      // Reset form and clear any error messages
+      signupForm.reset();
+      signupErrorMessage.textContent = ""; // Use this variable for error messages
+
+      // Redirect user or show a success message
+      document.getElementById("loginContainer").style.display = "none";
+      document.getElementById("signupContainer").style.display = "none"; // Hide signup form
+      document.getElementById("notesContainer").style.display = "flex"; // Show notes container
+
+      // Additional UI setup can go here if needed
+    } catch (error) {
+      // Handle errors and display user-friendly error messages
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          signupErrorMessage.textContent =
+            "Email is already in use. Try another.";
+          break;
+        case "auth/invalid-email":
+          signupErrorMessage.textContent = "Invalid email format.";
+          break;
+        case "auth/weak-password":
+          signupErrorMessage.textContent =
+            "Password is too weak. Use a stronger password.";
+          break;
+        default:
+          signupErrorMessage.textContent = "Sign up failed. Please try again.";
+      }
+      console.error("Error signing up:", error);
+    }
   });
 }
 
@@ -94,7 +128,7 @@ export function setupLogout() {
   });
 }
 
-function handleAuthError(error, errorMessage) {
+export function handleAuthError(error, errorMessage) {
   switch (error.code) {
     case "auth/user-not-found":
       errorMessage.textContent = "User does not exist.";
@@ -109,3 +143,37 @@ function handleAuthError(error, errorMessage) {
       errorMessage.textContent = "An error occurred.";
   }
 }
+
+// Show the sign-up form and hide the login form
+document.getElementById("showSignup").addEventListener("click", (e) => {
+  e.preventDefault();
+  document.getElementById("loginContainer").style.display = "none";
+  document.getElementById("signupContainer").style.display = "block";
+});
+
+// Show the login form and hide the sign-up form
+document.getElementById("showLogin").addEventListener("click", (e) => {
+  e.preventDefault();
+  document.getElementById("signupContainer").style.display = "none";
+  document.getElementById("loginContainer").style.display = "block";
+});
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log("User is logged in:", user);
+
+    // Hide the login and signup forms
+    document.getElementById("loginContainer").style.display = "none";
+    document.getElementById("signupContainer").style.display = "none";
+
+    // Show the main content (e.g., the notes section)
+    document.getElementById("notesContainer").style.display = "flex";
+  } else {
+    console.log("User is logged out");
+
+    // Show the login form and hide the rest
+    document.getElementById("notesContainer").style.display = "none";
+    document.getElementById("signupContainer").style.display = "none";
+    document.getElementById("loginContainer").style.display = "block";
+  }
+});
